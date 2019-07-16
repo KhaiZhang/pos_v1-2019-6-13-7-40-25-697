@@ -10,3 +10,27 @@ const decodeTag = tags =>{
         return barcodeWithCount;
     },[])
 }
+
+const combineItem = barcodesWithCount => {
+    const allItems = loadAllItems();
+    return barcodesWithCount.map(currentValue => {
+        const findItem = allItems.find(item => item.barcode === currentValue.barcode);
+        currentValue.name = findItem.name;
+        currentValue.unit = findItem.unit;
+        currentValue.price = findItem.price;
+        return currentValue; 
+    });
+}
+
+const decodeTags = tags =>{
+    return combineItem(decodeTag(tags));
+}
+
+const promoteReceiptItems = (items,allPromotions) => {
+    return items.map(item => {
+         allPromotions.find(promotion => promotion.type === 'BUY_TWO_GET_ONE_FREE').barcodes
+        .includes(item.barcode) && item.count > 2 ? item.subtotal = (item.count-1) * item.price:
+        item.subtotal = item.count * item.price;
+        return item;
+    });
+}

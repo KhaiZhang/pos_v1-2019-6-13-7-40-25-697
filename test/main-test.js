@@ -31,7 +31,7 @@ describe('pos', () => {
 //     expect(console.log).toHaveBeenCalledWith(expectText);
 //   });
 
-  it(`should return barcodeWithCount when decodeTage`,() =>{
+  it(`should return barcodeWithCount when decodeTag`,() =>{
     const tags = [
       'ITEM000001',
       'ITEM000001',
@@ -51,4 +51,120 @@ describe('pos', () => {
   ];
     expect(result).toEqual(expectResult);
   })
+
+  it(`should return items when combineItem`,() =>{
+    const barcodesWithCount = [
+      {barcode:'ITEM000001',count:5},
+      {barcode:'ITEM000003',count:2.5},
+      {barcode:'ITEM000005',count:3}
+    ];
+    const result = combineItem(barcodesWithCount);
+    const expectResult =[
+      { barcode: "ITEM000001",
+        count: 5,
+        name: '雪碧',
+        unit: '瓶',
+        price: 3.00
+      },
+      { barcode: "ITEM000003", 
+        count: 2.5,
+        name: '荔枝',
+        unit: '斤',
+        price: 15.00
+      },
+      { barcode: "ITEM000005", 
+        count: 3,
+        name: '方便面',
+        unit: '袋',
+        price: 4.50
+      }
+      ];
+    expect(result).toEqual(expectResult);
+  })
+
+  it(`should return items when decodeTags`,() =>{
+    const barcodesWithCount =  [
+      'ITEM000001',
+      'ITEM000001',
+      'ITEM000001',
+      'ITEM000001',
+      'ITEM000001',
+      'ITEM000003-2.5',
+      'ITEM000005',
+      'ITEM000005-2',
+    ];
+    const result = decodeTags(barcodesWithCount);
+    const expectResult =[
+      { barcode: "ITEM000001",
+        count: 5,
+        name: '雪碧',
+        unit: '瓶',
+        price: 3.00
+      },
+      { barcode: "ITEM000003", 
+        count: 2.5,
+        name: '荔枝',
+        unit: '斤',
+        price: 15.00
+      },
+      { barcode: "ITEM000005", 
+        count: 3,
+        name: '方便面',
+        unit: '袋',
+        price: 4.50
+      }
+      ];
+    expect(result).toEqual(expectResult);
+  });
+
+  it('should return items with subtotal when promoteReceiptItems', () => {
+
+    const items = [
+      { barcode: "ITEM000001",
+        count: 5,
+        name: '雪碧',
+        unit: '瓶',
+        price: 3.00
+      },
+      { barcode: "ITEM000003", 
+        count: 2.5,
+        name: '荔枝',
+        unit: '斤',
+        price: 15.00
+      },
+      { barcode: "ITEM000005", 
+        count: 3,
+        name: '方便面',
+        unit: '袋',
+        price: 4.50
+      }
+      ];
+    const allPromotions = loadPromotions();
+    const result = promoteReceiptItems(items,allPromotions);
+    console.log(result);
+    const expectResult = [
+      { barcode: "ITEM000001",
+        count: 5,
+        name: '雪碧',
+        unit: '瓶',
+        price: 3.00,
+        subtotal: 12.00
+      },
+      { barcode: "ITEM000003", 
+        count: 2.5,
+        name: '荔枝',
+        unit: '斤',
+        price: 15.00,
+        subtotal: 37.50
+      },
+      { barcode: "ITEM000005", 
+        count: 3,
+        name: '方便面',
+        unit: '袋',
+        price: 4.50,
+        subtotal: 9.00
+      }
+      ];
+    expect(result).toEqual(expectResult);
+  });
 });
