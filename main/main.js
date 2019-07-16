@@ -43,7 +43,6 @@ const calculateReceiptItems = items => {
 const calculateReceiptTotal = receiptItems => {
     let total=0;
     for (let item of receiptItems) {
-        console.log(item.subtotal);
         total += item.subtotal;
     }
     return total;
@@ -63,4 +62,17 @@ const calculateReceipt = receiptItems => {
     receipt.total = calculateReceiptTotal(receiptItems);
     receipt.saving = calculateReceiptSaving(receiptItems);
     return receipt;
+}
+
+const renderReceipt = receipt => {
+    let result = `***<没钱赚商店>收据***\n`;
+    for(let item of receipt.receiptItems){
+        result = result + `名称：${item.name}，数量：${item.count}${item.unit}，单价：${(item.price.toFixed(2))}(元)，小计：${item.subtotal.toFixed(2)}(元)\n`;
+    }
+    result = result + `----------------------\n总计：${receipt.total.toFixed(2)}(元)\n节省：${receipt.saving.toFixed(2)}(元)\n**********************`;
+    return result;
+}
+
+const printReceipt = tags =>{
+    return renderReceipt(calculateReceipt(calculateReceiptItems(decodeTags(tags))));
 }
