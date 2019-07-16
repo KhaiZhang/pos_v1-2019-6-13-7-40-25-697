@@ -141,7 +141,55 @@ describe('pos', () => {
       ];
     const allPromotions = loadPromotions();
     const result = promoteReceiptItems(items,allPromotions);
-    console.log(result);
+    const expectResult = [
+      { barcode: "ITEM000001",
+        count: 5,
+        name: '雪碧',
+        unit: '瓶',
+        price: 3.00,
+        subtotal: 12.00
+      },
+      { barcode: "ITEM000003", 
+        count: 2.5,
+        name: '荔枝',
+        unit: '斤',
+        price: 15.00,
+        subtotal: 37.50
+      },
+      { barcode: "ITEM000005", 
+        count: 3,
+        name: '方便面',
+        unit: '袋',
+        price: 4.50,
+        subtotal: 9.00
+      }
+      ];
+    expect(result).toEqual(expectResult);
+  });
+
+  it('should return items receiptItems when calculateReceiptItems', () => {
+
+    const items = [
+      { barcode: "ITEM000001",
+        count: 5,
+        name: '雪碧',
+        unit: '瓶',
+        price: 3.00
+      },
+      { barcode: "ITEM000003", 
+        count: 2.5,
+        name: '荔枝',
+        unit: '斤',
+        price: 15.00
+      },
+      { barcode: "ITEM000005", 
+        count: 3,
+        name: '方便面',
+        unit: '袋',
+        price: 4.50
+      }
+      ];
+    const result = calculateReceiptItems(items);
     const expectResult = [
       { barcode: "ITEM000001",
         count: 5,
