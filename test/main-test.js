@@ -248,7 +248,7 @@ describe('pos', () => {
     expect(result).toEqual(expectResult);
   });
 
-  it('should return total when calculateReceiptSaving', () => {
+  it('should return saving when calculateReceiptSaving', () => {
 
     const receiptItems = [
       { 
@@ -277,6 +277,64 @@ describe('pos', () => {
     const result = calculateReceiptSaving(receiptItems);
     console.log(result);
     const expectResult = 7.5;
+    expect(result).toEqual(expectResult);
+  });
+
+  it('should return receipt when calculateReceipt', () => {
+
+    const receiptItems = [
+      { 
+      barcode: "ITEM000001",
+      count: 5,
+      name: '雪碧',
+      unit: '瓶',
+      price: 3.00,
+      subtotal: 12.00
+    },
+    { barcode: "ITEM000003", 
+      count: 2.5,
+      name: '荔枝',
+      unit: '斤',
+      price: 15.00,
+      subtotal: 37.50
+    },
+    { barcode: "ITEM000005", 
+      count: 3,
+      name: '方便面',
+      unit: '袋',
+      price: 4.50,
+      subtotal: 9.00
+    }
+    ];
+    const result = calculateReceipt(receiptItems);
+    console.log(result);
+    const expectResult ={
+      receiptItems : [
+      { barcode: "ITEM000001",
+        count: 5,
+        name: '雪碧',
+        unit: '瓶',
+        price: 3.00,
+        subtotal: 12.00
+      },
+      { barcode: "ITEM000003", 
+        count: 2.5,
+        name: '荔枝',
+        unit: '斤',
+        price: 15.00,
+        subtotal: 37.50
+      },
+      { barcode: "ITEM000005", 
+        count: 3,
+        name: '方便面',
+        unit: '袋',
+        price: 4.50,
+        subtotal: 9.00
+      }
+      ],
+    total : 58.50,
+    saving : 7.50
+  }
     expect(result).toEqual(expectResult);
   });
 });

@@ -56,3 +56,11 @@ const calculateReceiptSaving = receiptItems => {
     }
     return saving;
 }
+
+const calculateReceipt = receiptItems => {
+    const receipt ={};
+    receipt.receiptItems = receiptItems;
+    receipt.total = calculateReceiptTotal(receiptItems);
+    receipt.saving = calculateReceiptSaving(receiptItems);
+    return receipt;
+}
