@@ -48,3 +48,11 @@ const calculateReceiptTotal = receiptItems => {
     }
     return total;
 }
+
+const calculateReceiptSaving = receiptItems => {
+    let saving=0;
+    for (let item of receiptItems) {
+        saving += item.count * item.price - item.subtotal;
+    }
+    return saving;
+}
